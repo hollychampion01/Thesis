@@ -1,0 +1,19 @@
+# macOS system files
+.DS_Store
+
+# Python cache and bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+thesis_venv/
+
+# Raw data or large files (optional)
+*.npy
+*.npz
+*.h5
+*.mat
+
+# Temporary files
+*.log

@@ -66,7 +66,8 @@ def filter(x, fs, f_low = F_LOW, f_high = F_HIGH, order = F_ORDER):
 #################### Load Data ####################
 
 filename = input("Enter CSV filename (without .csv): ").strip() + ".csv"
-signal = pd.read_csv(filename, header = None).iloc[:,0].astype(float).values
+# signal = pd.read_csv(filename, header = None).iloc[:,0].astype(float).values
+signal = pd.read_csv(filename, header=None, engine="python").iloc[:, 0].astype(float).values
 signal = filter(signal, SAMPLING_RATE)
 t = np.arange(len(signal)) / SAMPLING_RATE
 
@@ -187,7 +188,7 @@ for i, (start, end, _) in enumerate(waveforms):
     normalised_waveforms.append(wave)
 
 # Save as .npy for feature extraction later
-normalised_path = os.path.splitext(filename)[0] + "_normalised_cycles.npy"
+normalised_path = os.path.splitext(filename)[0] + "_normalised.npy"
 np.save(normalised_path, np.array(normalised_waveforms, dtype=object), allow_pickle=True)
 print(f"Saved normalised variable-length cycles for feature extraction → {normalised_path}")
 

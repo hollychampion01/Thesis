@@ -48,9 +48,9 @@ for i, waveform in enumerate(waveforms):
     sign_changes = np.sum(np.diff(np.sign(dd_wave)) != 0)                       # Number of sign changes
 
     # Frequency-domain features
-    spectral_centroid = (np.sum(np.arange(len(fft_magnitude)) * fft_magnitude)  # Centre of mass of centroid
+    spectral_centroid = (np.sum(np.arange(len(fft_magnitude)) * fft_magnitude)  # Average frequency (how smooth or sharp the wave is)
         / np.sum(fft_magnitude))
-    spectral_entropy = entropy(fft_magnitude / np.sum(fft_magnitude))           # Randomness of normalised spectrum
+    spectral_entropy = entropy(fft_magnitude / np.sum(fft_magnitude))           # Frequency spread (higher means noisier)
 
     # Output all features as a dictionary
     features = {

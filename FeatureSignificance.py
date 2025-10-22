@@ -59,4 +59,4 @@ output = f"{base}_zscore_feature_screening.csv"
 res_sorted.to_csv(output, index=False)
 
 print(f"\nSaved results → {output}\n")
-print(res_sorted.head(15))
+print(res_sorted.head(16))

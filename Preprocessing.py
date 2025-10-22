@@ -190,7 +190,6 @@ for i, (start, end, _) in enumerate(waveforms):
 # Save as .npy for feature extraction later
 normalised_path = os.path.splitext(filename)[0] + "_normalised.npy"
 np.save(normalised_path, np.array(normalised_waveforms, dtype=object), allow_pickle=True)
-print(f"Saved normalised variable-length waveforms for feature extraction → {normalised_path}")
 
 ## Normalised waveforms (resampled to be the same length for autoencoder) ##
 TARGET_LEN = 512
@@ -207,4 +206,3 @@ resampled_waveforms = np.array(resampled_waves)
 # Save as .npy for use in autoencoder
 waveform_path = os.path.splitext(filename)[0] + "_autoencoder_ready.npy"
 np.save(waveform_path, resampled_waveforms)
-print(f"Saved normalised fixed-length waveforms for autoencoder → {waveform_path}")

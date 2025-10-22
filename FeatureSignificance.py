@@ -29,34 +29,28 @@ for j, name in enumerate(features):
     z_50  = (compress_50[:, j] - mean) / std
     z_80  = (compress_80[:, j] - mean) / std
 
+    # True labels
     compress_50_true = np.r_[np.zeros_like(z_norm), np.ones_like(z_50)]
     compress_80_true = np.r_[np.zeros_like(z_norm), np.ones_like(z_80)]
 
+    # Anomaly scores 
     compress_50_score = np.r_[np.abs(z_norm), np.abs(z_50)]
     compress_80_score = np.r_[np.abs(z_norm), np.abs(z_80)]
 
+    # Compute Area Under the Receiving Operating Characteristic Curve
     auc_50 = roc_auc_score(compress_50_true, compress_50_score)
     auc_80 = roc_auc_score(compress_80_true, compress_80_score)
 
     rows.append({
         "feature": name,
-        "AUROC_vs_50":    auc_50,
-        "AUROC_vs_80":    auc_80,
+        "AUROC_vs_50": auc_50,
+        "AUROC_vs_80": auc_80,
     })
 
 res = pd.DataFrame(rows)
 
-# Rank results
-res["Average_AUROC"] = res[["AUROC_vs_50", "AUROC_vs_80"]].mean(axis=1)
-
-res_sorted = res.sort_values(
-    by="Average_AUROC",
-    ascending=False
-).reset_index(drop=True)
-
 # Save and display
 output = f"{base}_zscore_feature_screening.csv"
-res_sorted.to_csv(output, index=False)
-
-print(f"\nSaved results → {output}\n")
-print(res_sorted.head(16))
+res.to_csv(output, index=False)
+print("\n")
+print(res)

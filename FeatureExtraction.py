@@ -80,4 +80,3 @@ features_df = pd.DataFrame(features_list)
 # Export to a new csv file
 output_file = name.replace("normalised", "") + "_features.csv"
 features_df.to_csv(output_file, index=False)
-print(f"Saved extracted features → {output_file}")

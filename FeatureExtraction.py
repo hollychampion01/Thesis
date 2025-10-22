@@ -36,9 +36,7 @@ for i, waveform in enumerate(waveforms):
     entropy_val = entropy(np.histogram(waveform, bins=25, density=True)[0])     # Amplitude randomness (Shannon entropy)
 
     # Temporal Features: When important events happen within a waveform
-    time_to_peak = peak_idx / len(waveform)                                     # Normalised time to reach peak
-    rise_fraction = (peak_idx - trough_idx) / len(waveform)                     # Fraction of wave spent rising
-    decay_fraction = 1 - rise_fraction                                          # Fraction of wave spent decaying
+    decay_fraction = (trough_idx - peak_idx) / len(waveform)                    # Fraction of wave spent decaying
 
     # Derivative-based features: Slope/curve information
     max_d = np.max(d_wave)                                                      # Steepest upward slope
@@ -62,8 +60,6 @@ for i, waveform in enumerate(waveforms):
         "skewness": skewness,
         "kurtosis": kurt,
         "entropy": entropy_val,
-        "time_to_peak": time_to_peak,
-        "rise_fraction": rise_fraction,
         "decay_fraction": decay_fraction,
         "max_derivative": max_d,
         "min_derivative": min_d,

@@ -4,6 +4,8 @@
 # Title: Run Pipeline
 # Description: Run file Preprocessing then Feature Extraction then Feature Significance
 
+# Have files all be created in a new directory and delete the directory upon completion
+
 import subprocess
 
 name = input("Enter person name: ").strip()

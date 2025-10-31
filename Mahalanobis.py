@@ -1,7 +1,7 @@
 # Author: Holly Champion
 # Year: 2025
 # Title: Mahalanobis Significance
-# Description: Detects multivariate anomalies using Mahalanobis distance. Threshold from normal 5%
+# Description: Detects multivariate anomalies using Mahalanobis distance. 
 
 import numpy as np
 import pandas as pd

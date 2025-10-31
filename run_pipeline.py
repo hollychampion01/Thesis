@@ -31,4 +31,7 @@ subprocess.run(["python", "PCAOutlier.py"], input=(name + "\n").encode("utf-8"),
 print(f"\nGMM Clustering {name}")
 subprocess.run(["python", "GMM.py"], input=(name + "\n").encode("utf-8"), check=True)
 
+print(f"\nIsolation Forest{name}")
+subprocess.run(["python", "IsolationForest.py"], input=(name + "\n").encode("utf-8"), check=True)
+
 print("\nPipeline completed")

@@ -9,8 +9,8 @@ from sklearn.metrics import roc_auc_score
 # Load data
 base = input("Enter person name: ").strip()
 
-compress_50 = pd.read_csv(f"OriginalData/{base}_50_features.csv").values.astype(float)
-compress_80 = pd.read_csv(f"OriginalData/{base}_80_features.csv").values.astype(float)
+compress_50 = pd.read_csv(f"OriginalData/{base}_50_features.csv").values
+compress_80 = pd.read_csv(f"OriginalData/{base}_80_features.csv").values
 normal      = pd.read_csv(f"OriginalData/{base}_normal_features.csv")
 
 features = list(normal.columns) # Get names of features

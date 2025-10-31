@@ -4,8 +4,6 @@
 # Title: Run Pipeline
 # Description: Run file Preprocessing then Feature Extraction then Feature Significance
 
-# Have files all be created in a new directory and delete the directory upon completion
-
 import subprocess
 
 name = input("Enter person name: ").strip()
@@ -23,5 +21,11 @@ for t in type:
 
 print(f"\nFeature Significance {name}")
 subprocess.run(["python", "FeatureSignificance.py"], input=(name + "\n").encode("utf-8"), check=True)
+
+print(f"\nMahalanobis {name}")
+subprocess.run(["python", "Mahalanobis.py"], input=(name + "\n").encode("utf-8"), check=True)
+
+print(f"\nPCA Outlier {name}")
+subprocess.run(["python", "PCAOutlier.py"], input=(name + "\n").encode("utf-8"), check=True)
 
 print("\nPipeline completed")

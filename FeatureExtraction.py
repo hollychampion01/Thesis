@@ -55,18 +55,18 @@ for i, waveform in enumerate(waveforms):
     # Output all features as a dictionary
     features = {
         "auc": auc,
-        "mean": mean,
-        "std": std,
+        # "mean": mean,  # This one
+        # "std": std, # This one
         "skewness": skewness,
         "kurtosis": kurt,
         "entropy": entropy_val,
         "decay_fraction": decay_fraction,
         "max_derivative": max_d,
         "min_derivative": min_d,
-        "mean_derivative": mean_d,
-        "std_derivative": std_d,
-        "max_dd": max_dd,
-        "min_dd": min_dd,
+        # "mean_derivative": mean_d, # This one
+        # "std_derivative": std_d, # This one
+        # "max_dd": max_dd, # This one
+        # "min_dd": min_dd, # This one
         "spectral_centroid": spectral_centroid,
         "spectral_entropy": spectral_entropy,
         "sign_changes": sign_changes
@@ -76,6 +76,13 @@ for i, waveform in enumerate(waveforms):
 
 # Convert feature list into a data frame
 features_df = pd.DataFrame(features_list)
+
+# Convert feature list into a data frame
+features_df = pd.DataFrame(features_list)
+
+# Export to a new csv file
+output_file = name.replace("normalised", "") + "_features.csv"
+features_df.to_csv(output_file, index=False)
 
 # Export to a new csv file
 output_file = name.replace("normalised", "") + "_features.csv"

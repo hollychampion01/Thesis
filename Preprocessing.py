@@ -151,40 +151,65 @@ for w in np.unique(window_id):
 
 #################### Visualise Data Ditching ####################
 
-good_data = np.sum(~is_outlier)
-bad_data = np.sum(is_outlier)
+# good_data = np.sum(~is_outlier)
+# bad_data = np.sum(is_outlier)
 
-print(f"Total Waveforms: {len(waveforms)} | Kept Waveforms: {good_data} | Ditched Waveforms: {bad_data}")
+# print(f"Total Waveforms: {len(waveforms)} | Kept Waveforms: {good_data} | Ditched Waveforms: {bad_data}")
 
-plt.figure()
-plt.plot(t, signal, label="Signal")
-plt.scatter(t[peaks], signal[peaks])
+# plt.figure()
+# plt.plot(t, signal, label="Signal")
+# plt.scatter(t[peaks], signal[peaks])
 
-# Shade waves as green (kept) or red (ditched)
-for i, (start, end, _) in enumerate(waveforms):
-    if is_outlier[i]:
-        color = 'red'
-    else:
-        color = 'green'
-    plt.axvspan(t[start], t[end], color=color, alpha=0.2)
+# # Shade waves as green (kept) or red (ditched)
+# for i, (start, end, _) in enumerate(waveforms):
+#     if is_outlier[i]:
+#         color = 'red'
+#     else:
+#         color = 'green'
+#     plt.axvspan(t[start], t[end], color=color, alpha=0.2)
 
-plt.title("Waveform Plots and Kept Data")
-plt.xlabel("Time (s)")
-plt.ylabel("Amplitude")
-plt.show()
+# plt.title("Waveform Plots and Kept Data")
+# plt.xlabel("Time (s)")
+# plt.ylabel("Amplitude")
+# plt.show()
 
 #################### Export Normalized Cycle Data ####################
 
-## Normalised waveforms (lengths vary) ##
+# ## Normalised waveforms (lengths vary) ##
+# normalised_waveforms = []
 
+# for i, (start, end, _) in enumerate(waveforms):
+#     if is_outlier[i]:
+#         continue
+#     wave = signal[start:end].copy()
+#     # Normalise between 0 and 1
+#     wave = (wave - np.min(wave)) / (np.max(wave) - np.min(wave))
+#     normalised_waveforms.append(wave)
+
+# # Save as .npy for feature extraction later
+# normalised_path = os.path.splitext(filename)[0] + "_normalised.npy"
+# np.save(normalised_path, np.array(normalised_waveforms, dtype=object), allow_pickle=True)
+
+
+## Normalised waveforms (lengths vary) ##
 normalised_waveforms = []
 
 for i, (start, end, _) in enumerate(waveforms):
     if is_outlier[i]:
         continue
     wave = signal[start:end].copy()
-    # Normalise between 0 and 1
-    wave = (wave - np.min(wave)) / (np.max(wave) - np.min(wave))
+    
+    # --- Z-SCORE STANDARDIZATION (Correct for ML/Distance Methods) ---
+    wave_mean = np.mean(wave)
+    wave_std = np.std(wave)
+    
+    # Add a tiny epsilon to prevent division by zero if the wave segment is constant
+    epsilon = 1e-12 
+    
+    # Standardize: Z-score = (X - mean) / std
+    wave = (wave - wave_mean) / (wave_std + epsilon)
+    # ------------------------------------------------------------------
+    
     normalised_waveforms.append(wave)
 
 # Save as .npy for feature extraction later

@@ -50,14 +50,14 @@ threshold = np.percentile(err_test, 95)
 
 # Ratio of samples above threshold (anomaly rate)
 ratio_norm = (err_train > threshold).mean()
-ratio_val  = (err_test  > threshold).mean()
+ratio_test  = (err_test  > threshold).mean()
 ratio_50   = (err_50    > threshold).mean()
 ratio_80   = (err_80    > threshold).mean()
 
 # print results
 print("\nPCA Outlier Detection: Amount of detected abnormalities")
 print(f"Normal (train)   > thr: {ratio_norm:.3f}")
-print(f"Normal (val)     > thr: {ratio_val:.3f}")
+print(f"Normal (test)    > thr: {ratio_test:.3f}")
 print(f"Compression 50%  > thr: {ratio_50:.3f}")
 print(f"Compression 80%  > thr: {ratio_80:.3f}")
 

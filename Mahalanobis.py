@@ -8,15 +8,15 @@ import numpy as np
 import pandas as pd
 import warnings
 
-# Ignore warnings
+# Ignore warnings (harmless run-time warnings from near-singular covariance)
 np.seterr(over='ignore', divide='ignore', invalid='ignore')
 warnings.filterwarnings("ignore", category=RuntimeWarning, module=r".*numpy\.linalg.*")
 
 # Load data
 base = input("Enter person name: ").strip()
-compress_50 = pd.read_csv(f"OriginalData/{base}_50_features.csv").values.astype(float)
-compress_80 = pd.read_csv(f"OriginalData/{base}_80_features.csv").values.astype(float)
-normal      = pd.read_csv(f"OriginalData/{base}_normal_features.csv").values.astype(float)
+compress_50 = pd.read_csv(f"OriginalData/{base}_50_features.csv").values
+compress_80 = pd.read_csv(f"OriginalData/{base}_80_features.csv").values
+normal      = pd.read_csv(f"OriginalData/{base}_normal_features.csv").values
 
 # Mean and covariance of normal data
 mean = normal.mean(axis = 0)                                # Calculate mean for each feature

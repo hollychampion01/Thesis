@@ -50,7 +50,7 @@ for j, name in enumerate(features):
 res = pd.DataFrame(rows)
 
 # Save and display
-output = f"{base}_zscore_feature_screening.csv"
-res.to_csv(output, index=False)
+# output = f"{base}_zscore_feature_screening.csv"
+# res.to_csv(output, index=False)
 print("\n")
 print(res)

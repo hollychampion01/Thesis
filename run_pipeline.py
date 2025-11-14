@@ -34,4 +34,7 @@ subprocess.run(["python", "GMM.py"], input=(name + "\n").encode("utf-8"), check=
 print(f"\nIsolation Forest{name}")
 subprocess.run(["python", "IsolationForest.py"], input=(name + "\n").encode("utf-8"), check=True)
 
+print(f"\nCNN Autoencoder {name}")
+subprocess.run(["python", "CNNAE.py"], input=(name + "\n").encode("utf-8"), check=True)
+
 print("\nPipeline completed")

@@ -175,22 +175,6 @@ for w in np.unique(window_id):
 
 #################### Export Normalized Cycle Data ####################
 
-# ## Normalised waveforms (lengths vary) ##
-# normalised_waveforms = []
-
-# for i, (start, end, _) in enumerate(waveforms):
-#     if is_outlier[i]:
-#         continue
-#     wave = signal[start:end].copy()
-#     # Normalise between 0 and 1
-#     wave = (wave - np.min(wave)) / (np.max(wave) - np.min(wave))
-#     normalised_waveforms.append(wave)
-
-# # Save as .npy for feature extraction later
-# normalised_path = os.path.splitext(filename)[0] + "_normalised.npy"
-# np.save(normalised_path, np.array(normalised_waveforms, dtype=object), allow_pickle=True)
-
-
 ## Normalised waveforms (lengths vary) ##
 normalised_waveforms = []
 
@@ -199,17 +183,13 @@ for i, (start, end, _) in enumerate(waveforms):
         continue
     wave = signal[start:end].copy()
     
-    # --- Z-SCORE STANDARDIZATION (Correct for ML/Distance Methods) ---
+    # Z score standardisation
     wave_mean = np.mean(wave)
     wave_std = np.std(wave)
-    
-    # Add a tiny epsilon to prevent division by zero if the wave segment is constant
     epsilon = 1e-12 
     
     # Standardize: Z-score = (X - mean) / std
     wave = (wave - wave_mean) / (wave_std + epsilon)
-    # ------------------------------------------------------------------
-    
     normalised_waveforms.append(wave)
 
 # Save as .npy for feature extraction later

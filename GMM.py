@@ -52,7 +52,7 @@ ratio_test = (s_test  > threshold).mean()
 ratio_50   = (s_50    > threshold).mean()
 ratio_80   = (s_80    > threshold).mean()
 
-# print results
+# Print results
 print("\nPCA Outlier Detection: Amount of detected abnormalities")
 print(f"Normal (train)   > thr: {ratio_norm:.3f}")
 print(f"Normal (val)     > thr: {ratio_test:.3f}")

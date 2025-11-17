@@ -53,7 +53,7 @@ ratio_50   = (s_50    > threshold).mean()
 ratio_80   = (s_80    > threshold).mean()
 
 # Print results
-print("\nPCA Outlier Detection: Amount of detected abnormalities")
+print("\GMM Clustering Outlier Detection: Amount of detected abnormalities")
 print(f"Normal (train)   > thr: {ratio_norm:.3f}")
 print(f"Normal (val)     > thr: {ratio_test:.3f}")
 print(f"Compression 50%  > thr: {ratio_50:.3f}")

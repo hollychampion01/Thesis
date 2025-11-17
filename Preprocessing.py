@@ -22,7 +22,7 @@ DIST_FRAC = 0.55                # Minimum distance between peaks as a fraction o
 MAD_SIGMA = 1.4826              # Conversion scale from MAD to STD
 K_OUTLIER = 3.0                 # Outlier minimum range
 BPM_MIN = 40                    # Assumption on lowest heart rate
-BPM_MAX = 220                   # Assumption on highest eart rate
+BPM_MAX = 220                   # Assumption on highest heart rate
 F_LOW = 0.15                    # Hz: Removes baseline drift.
 F_HIGH = 40.0                   # Hz: This may need to be adjusted. Increase for more detail (could be noise) or reduce for less noise (could loose detail)
 F_ORDER = 2                     # Butterworth filter order
@@ -151,31 +151,31 @@ for w in np.unique(window_id):
 
 #################### Visualise Data Ditching ####################
 
-# good_data = np.sum(~is_outlier)
-# bad_data = np.sum(is_outlier)
+good_data = np.sum(~is_outlier)
+bad_data = np.sum(is_outlier)
 
-# print(f"Total Waveforms: {len(waveforms)} | Kept Waveforms: {good_data} | Ditched Waveforms: {bad_data}")
+print(f"Total Waveforms: {len(waveforms)} | Kept Waveforms: {good_data} | Ditched Waveforms: {bad_data}")
 
-# plt.figure()
-# plt.plot(t, signal, label="Signal")
-# plt.scatter(t[peaks], signal[peaks])
+plt.figure()
+plt.plot(t, signal, label="Signal")
+plt.scatter(t[peaks], signal[peaks])
 
-# # Shade waves as green (kept) or red (ditched)
-# for i, (start, end, _) in enumerate(waveforms):
-#     if is_outlier[i]:
-#         color = 'red'
-#     else:
-#         color = 'green'
-#     plt.axvspan(t[start], t[end], color=color, alpha=0.2)
+# Shade waves as green (kept) or red (ditched)
+for i, (start, end, _) in enumerate(waveforms):
+    if is_outlier[i]:
+        color = 'red'
+    else:
+        color = 'green'
+    plt.axvspan(t[start], t[end], color=color, alpha=0.2)
 
-# plt.title("Waveform Plots and Kept Data")
-# plt.xlabel("Time (s)")
-# plt.ylabel("Amplitude")
-# plt.show()
+plt.title("Waveform Plots and Kept Data")
+plt.xlabel("Time (s)")
+plt.ylabel("Amplitude")
+plt.show()
 
 #################### Export Normalized Cycle Data ####################
 
-## Normalised waveforms (lengths vary) ##
+# Normalised waveforms (lengths vary)
 normalised_waveforms = []
 
 for i, (start, end, _) in enumerate(waveforms):
@@ -196,7 +196,7 @@ for i, (start, end, _) in enumerate(waveforms):
 normalised_path = os.path.splitext(filename)[0] + "_normalised.npy"
 np.save(normalised_path, np.array(normalised_waveforms, dtype=object), allow_pickle=True)
 
-## Normalised waveforms (resampled to be the same length for autoencoder) ##
+# Normalised waveforms (resampled to be the same length for autoencoder)
 TARGET_LEN = 512
 resampled_waves = []
 

@@ -2,7 +2,8 @@
 # Author: Holly Champion
 # Year: 2025
 # Title: Run Pipeline
-# Description: Run file Preprocessing then Feature Extraction then Feature Significance
+# Description: Runs the full processing pipeline including preprocessing, extracting features
+# and executing all anomaly detection models
 
 import subprocess
 

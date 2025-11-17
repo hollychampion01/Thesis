@@ -12,7 +12,6 @@ from sklearn.model_selection import train_test_split
 
 # Constants
 SEED = 42
-# BATCH_SIZE = 256
 BATCH_SIZE = 64
 WEIGHT_DECAY = 1e-6
 EPOCHS = 200

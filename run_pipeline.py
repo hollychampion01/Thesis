@@ -26,16 +26,31 @@ subprocess.run(["python", "FeatureSignificance.py"], input=(name + "\n").encode(
 print(f"\nMahalanobis {name}")
 subprocess.run(["python", "Mahalanobis.py"], input=(name + "\n").encode("utf-8"), check=True)
 
+print(f"\nEvaluating Mahalanobis {name}")
+subprocess.run(["python", "Evaluation.py"], input=("mahalanobis\n" + name + "\n").encode("utf-8"), check=True)
+
 print(f"\nPCA Outlier {name}")
 subprocess.run(["python", "PCAOutlier.py"], input=(name + "\n").encode("utf-8"), check=True)
+
+print(f"\nEvaluating PCA {name}")
+subprocess.run(["python", "Evaluation.py"], input=("pca\n" + name + "\n").encode("utf-8"), check=True)
 
 print(f"\nGMM Clustering {name}")
 subprocess.run(["python", "GMM.py"], input=(name + "\n").encode("utf-8"), check=True)
 
+print(f"\nEvaluating GMM {name}")
+subprocess.run(["python", "Evaluation.py"], input=("gmm\n" + name + "\n").encode("utf-8"), check=True)
+
 print(f"\nIsolation Forest{name}")
 subprocess.run(["python", "IsolationForest.py"], input=(name + "\n").encode("utf-8"), check=True)
 
+print(f"\nEvaluating Isolation Forest {name}")
+subprocess.run(["python", "Evaluation.py"], input=("isoforest\n" + name + "\n").encode("utf-8"), check=True)
+
 print(f"\nCNN Autoencoder {name}")
 subprocess.run(["python", "CNNAE.py"], input=(name + "\n").encode("utf-8"), check=True)
+
+print(f"\nEvaluating CNN Autoencoder {name}")
+subprocess.run(["python", "Evaluation.py"], input=("cnn\n" + name + "\n").encode("utf-8"), check=True)
 
 print("\nPipeline completed")

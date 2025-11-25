@@ -71,7 +71,7 @@ signal = pd.read_csv(filename, header=None, engine="python").iloc[:, 0].astype(f
 signal = filter(signal, SAMPLING_RATE)
 t = np.arange(len(signal)) / SAMPLING_RATE
 
-#################### Adaptive Segmentation ####################
+#################### Segmentation ####################
 
 # Calculate Range - robust method that ignores extreme outliers
 high, low = np.percentile(signal, [97.5, 2.5])
@@ -151,27 +151,27 @@ for w in np.unique(window_id):
 
 #################### Visualise Data Ditching ####################
 
-good_data = np.sum(~is_outlier)
-bad_data = np.sum(is_outlier)
+# good_data = np.sum(~is_outlier)
+# bad_data = np.sum(is_outlier)
 
-print(f"Total Waveforms: {len(waveforms)} | Kept Waveforms: {good_data} | Ditched Waveforms: {bad_data}")
+# print(f"Total Waveforms: {len(waveforms)} | Kept Waveforms: {good_data} | Ditched Waveforms: {bad_data}")
 
-plt.figure()
-plt.plot(t, signal, label="Signal")
-plt.scatter(t[peaks], signal[peaks])
+# plt.figure()
+# plt.plot(t, signal, label="Signal")
+# plt.scatter(t[peaks], signal[peaks])
 
-# Shade waves as green (kept) or red (ditched)
-for i, (start, end, _) in enumerate(waveforms):
-    if is_outlier[i]:
-        color = 'red'
-    else:
-        color = 'green'
-    plt.axvspan(t[start], t[end], color=color, alpha=0.2)
+# # Shade waves as green (kept) or red (ditched)
+# for i, (start, end, _) in enumerate(waveforms):
+#     if is_outlier[i]:
+#         color = 'red'
+#     else:
+#         color = 'green'
+#     plt.axvspan(t[start], t[end], color=color, alpha=0.2)
 
-plt.title("Waveform Plots and Kept Data")
-plt.xlabel("Time (s)")
-plt.ylabel("Amplitude")
-plt.show()
+# plt.title("Waveform Plots and Kept Data")
+# plt.xlabel("Time (s)")
+# plt.ylabel("Amplitude")
+# plt.show()
 
 #################### Export Normalized Cycle Data ####################
 

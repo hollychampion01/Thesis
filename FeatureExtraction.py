@@ -10,8 +10,11 @@ from scipy.stats import skew, kurtosis, entropy
 
 # Load data file
 name = input("Enter filename (without extension): ").strip() 
-filename = name + "_normalised.npy"
-waveforms = np.load(filename, allow_pickle=True)
+# filename = name + "_normalised.npy"
+# waveforms = np.load(filename, allow_pickle=True)
+
+filename = name + "_autoencoder_ready.npy"
+waveforms = np.load(filename)
 
 # Dictionary for feature storage
 features_list = []
@@ -35,7 +38,6 @@ for i, waveform in enumerate(waveforms):
     kurt = kurtosis(waveform)                                                   # Kurtosis (how peaked/flat the wave is)
     entropy_val = entropy(np.histogram(waveform, bins=25, density=True)[0])     # Amplitude randomness (Shannon entropy)
 
-    # Temporal Features: When important events happen within a waveform
     decay_fraction = (trough_idx - peak_idx) / len(waveform)                    # Fraction of wave spent decaying
 
     # Derivative-based features: Slope/curve information
@@ -55,18 +57,18 @@ for i, waveform in enumerate(waveforms):
     # Output all features as a dictionary
     features = {
         "auc": auc,
-        # "mean": mean,  # This one
-        # "std": std, # This one
+        "mean": mean,
+        "std": std,
         "skewness": skewness,
         "kurtosis": kurt,
         "entropy": entropy_val,
         "decay_fraction": decay_fraction,
         "max_derivative": max_d,
         "min_derivative": min_d,
-        # "mean_derivative": mean_d, # This one
-        # "std_derivative": std_d, # This one
-        # "max_dd": max_dd, # This one
-        # "min_dd": min_dd, # This one
+        "mean_derivative": mean_d,
+        "std_derivative": std_d,
+        "max_dd": max_dd,
+        "min_dd": min_dd,
         "spectral_centroid": spectral_centroid,
         "spectral_entropy": spectral_entropy,
         "sign_changes": sign_changes

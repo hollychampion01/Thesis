@@ -3,6 +3,7 @@
 # Title: GMM Outlier
 # Description: Detects anomalies via Gaussian Mixture Model (negative log-likelihood).
 
+import os
 import numpy as np
 import pandas as pd
 import warnings
@@ -61,3 +62,9 @@ print(f"Compression 80%  > thr: {ratio_80:.3f}")
 
 # GMM Information
 print(f"\nNumber of GMM components: {GMM.n_components}")
+
+# Save scores for evaluation
+os.makedirs("Results", exist_ok=True)
+np.save(f"Results/{base}_gmm_norm.npy", s_test)
+np.save(f"Results/{base}_gmm_50.npy",  s_50)
+np.save(f"Results/{base}_gmm_80.npy",  s_80)

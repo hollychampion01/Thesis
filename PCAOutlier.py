@@ -9,6 +9,7 @@ from sklearn.preprocessing import StandardScaler
 import pandas as pd
 import numpy as np
 import warnings
+import os
 
 # Ignore warnings (harmless run-time warnings from near-singular covariance)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
@@ -30,7 +31,7 @@ scaled_50    = scale.transform(compress_50)           # Apply that scale to comp
 scaled_80    = scale.transform(compress_80)           # Apply that scale to compress_80 data
 
 # Fit PCA on normal stabilized training data
-pca = PCA(n_components=0.99, svd_solver="full")       # Keep 99% of variance
+pca = PCA(n_components=0.95, svd_solver="full")       # Keep 95% of variance
 pca.fit(scaled_train)                                 # Learn from scaled normal data
 
 # Calculates reconstruction error
@@ -64,3 +65,9 @@ print(f"Compression 80%  > thr: {ratio_80:.3f}")
 # PCA Information
 print(f"\nExplained variance ratio sum: {pca.explained_variance_ratio_.sum():.3f}")
 print(f"Number of PCA components: {pca.n_components_}")
+
+# Save scores for evaluation
+os.makedirs("Results", exist_ok=True)
+np.save(f"Results/{base}_pca_norm.npy", err_test)
+np.save(f"Results/{base}_pca_50.npy",  err_50)
+np.save(f"Results/{base}_pca_80.npy",  err_80)

@@ -8,6 +8,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import IsolationForest
+import os
 
 # Load data
 base = input("Enter person name: ").strip()
@@ -27,30 +28,80 @@ scaled_80    = scale.transform(compress_80)         # Apply that scale to compre
 
 # Fit Isolation Forest on normal stabilized training data
 IF = IsolationForest(
-    n_estimators=200,                               # Number of trees
+    n_estimators=100,                               # Number of trees
     contamination=0.05,                             # Expected outlier fraction in normal data
     random_state=42                                 # Fixed seed for reproducibility
 )
 IF.fit(scaled_train)                                # Learn from scaled normal data
 
-# Predict anomaly labels: -1 = anomaly, +1 = normal
-pred_train = IF.predict(scaled_train)
-pred_test  = IF.predict(scaled_test)
-pred_50    = IF.predict(scaled_50)
-pred_80    = IF.predict(scaled_80)
+# # Predict anomaly labels: -1 = anomaly, +1 = normal
+# pred_train = IF.predict(scaled_train)
+# pred_test  = IF.predict(scaled_test)
+# pred_50    = IF.predict(scaled_50)
+# pred_80    = IF.predict(scaled_80)
 
-# Ratio of samples flagged as anomalies (anomaly rate)
-ratio_norm = (pred_train == -1).mean()
-ratio_val  = (pred_test  == -1).mean()
-ratio_50   = (pred_50    == -1).mean()
-ratio_80   = (pred_80    == -1).mean()
+# # Ratio of samples flagged as anomalies (anomaly rate)
+# ratio_norm = (pred_train == -1).mean()
+# ratio_val  = (pred_test  == -1).mean()
+# ratio_50   = (pred_50    == -1).mean()
+# ratio_80   = (pred_80    == -1).mean()
 
-# print results
+# # print results
+# print("\nIsolation Forest Outlier Detection: Amount of detected abnormalities")
+# print(f"Normal (train)   > thr: {ratio_norm:.3f}")
+# print(f"Normal (val)     > thr: {ratio_val:.3f}")
+# print(f"Compression 50%  > thr: {ratio_50:.3f}")
+# print(f"Compression 80%  > thr: {ratio_80:.3f}")
+
+# # IF Information
+# print(f"\nNumber of trees: {IF.n_estimators}")
+
+# # ---------------- Continuous Anomaly Scores (for Evaluation.py) ----------------
+# # NOTE: score_samples → HIGHER is MORE normal → invert so HIGHER = MORE abnormal
+# s_test = -IF.score_samples(scaled_test)
+# s_50   = -IF.score_samples(scaled_50)
+# s_80   = -IF.score_samples(scaled_80)
+
+# # ---------------- Save for evaluation script ----------------
+# os.makedirs("Results", exist_ok=True)
+
+# np.save(f"Results/{base}_isoforest_norm.npy", s_test)
+# np.save(f"Results/{base}_isoforest_50.npy",  s_50)
+# np.save(f"Results/{base}_isoforest_80.npy",  s_80)
+
+# print("\nSaved score arrays for evaluation:")
+# print(f"  Results/{base}_isoforest_norm.npy")
+# print(f"  Results/{base}_isoforest_50.npy")
+# print(f"  Results/{base}_isoforest_80.npy")
+
+
+
+# ------------------------ Continuous anomaly scores ------------------------
+# score_samples → higher = MORE normal → invert so HIGHER = MORE abnormal
+s_train = -IF.score_samples(scaled_train)
+s_test  = -IF.score_samples(scaled_test)
+s_50    = -IF.score_samples(scaled_50)
+s_80    = -IF.score_samples(scaled_80)
+
+# ------------------------ Apply YOUR threshold (95th percentile on train normals) ------------------------
+threshold = np.percentile(s_train, 95)
+
+ratio_norm = (s_train > threshold).mean()
+ratio_val  = (s_test  > threshold).mean()
+ratio_50   = (s_50    > threshold).mean()
+ratio_80   = (s_80    > threshold).mean()
+
+# ------------------------ Print results in YOUR exact structure ------------------------
 print("\nIsolation Forest Outlier Detection: Amount of detected abnormalities")
 print(f"Normal (train)   > thr: {ratio_norm:.3f}")
 print(f"Normal (val)     > thr: {ratio_val:.3f}")
 print(f"Compression 50%  > thr: {ratio_50:.3f}")
 print(f"Compression 80%  > thr: {ratio_80:.3f}")
 
-# IF Information
 print(f"\nNumber of trees: {IF.n_estimators}")
+
+# Save scores for evaluation
+os.makedirs("Results", exist_ok=True)
+np.save(f"Results/{base}_isoforest_norm.npy", s_test)
+np.save(f"Results/{base}_isoforest_50.npy",  s_50)
+np.save(f"Results/{base}_isoforest_80.npy",  s_80)

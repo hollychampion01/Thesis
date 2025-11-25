@@ -187,3 +187,9 @@ print(f"Normal (val):   {ratio_val:.2f}")
 print(f"Normal (test):  {ratio_test:.2f}")
 print(f"Comp 50%:       {ratio_50:.2f}")
 print(f"Comp 80%:       {ratio_80:.2f}")
+
+# Save scores for evaluation
+os.makedirs("Results", exist_ok=True)
+np.save(f"Results/{base}_cnn_norm.npy", err_test)
+np.save(f"Results/{base}_cnn_50.npy",  err_50)
+np.save(f"Results/{base}_cnn_80.npy",  err_80)
